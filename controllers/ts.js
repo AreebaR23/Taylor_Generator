@@ -3,7 +3,7 @@ import {v4 as uuidv4} from 'uuid';
 
 import fs from 'fs';
 var songs = [];
-fs.readFile('./controllers/ts.json', 'utf8', (err, data) => {
+fs.readFile('./controllers/lyrics.json', 'utf8', (err, data) => {
     if(err) {
         console.error(err);
         return;
@@ -34,7 +34,7 @@ export const findSong = (req, res) => {
 export const getLyrics = (req, res) => {
     const {id} = req.params;
     const chosen_song = songs.find((song) = song.id == id);
-    res.send(chosen_song.album); //Change dataset?
+    res.send(chosen_song.Lyrics); //Change dataset?
 }
 
 // export const updateSong = (req, res) => {
