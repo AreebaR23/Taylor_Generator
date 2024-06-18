@@ -4,13 +4,22 @@ import {v4 as uuidv4} from 'uuid';
 import fs from 'fs';
 var songs = [];
 fs.readFile('./controllers/lyrics.json', 'utf8', (err, data) => {
+    
     if(err) {
         console.error(err);
         return;
     }
     songs = JSON.parse(data);
-    console.log(songs);
+    for (let obj of songs) { // Use 'of' instead of 'in' to iterate over array elements
+        obj['id'] = uuidv4(); // Add a new 'id' property to each object
+        obj['SongName'] = obj['Song Name']
+        delete obj['Song Name']
+    }
+    //console.log(songs);
 });
+
+
+    
 
 export const getSongs = (req, res) => {
     console.log(songs);
@@ -22,47 +31,25 @@ export const createSong = (req, res) => {
 
     songs.push({...song, id: uuidv4()}); // makes object with all properties + id
 
-    res.send(songs);
+    if (res.send(songs)) {
+        console.log("New song added");
+    }
 }
 
 export const findSong = (req, res) => {
-    const {id} = req.params;
-    const found_song = songs.find((song) => song.id == id);
+    const {SongName} = req.params;
+    const found_song = songs.find((song) => song.SongName == SongName);
     res.send(found_song);
 }
 
 export const getLyrics = (req, res) => {
-    const {id} = req.params;
-    const chosen_song = songs.find((song) = song.id == id);
-    res.send(chosen_song.Lyrics); //Change dataset?
+    const {SongName} = req.params;
+    const chosen_song = songs.find((song) => song.SongName == SongName);
+    console.log(chosen_song)
+    if(res.send(chosen_song.Lyrics)) {
+        console.log(chosen_song.Lyrics)
+    } else {
+        console.log("Failed to retrieve song")
+    }
 }
-
-// export const updateSong = (req, res) => {
-//     const{id} = req.params;
-//     const
-// }
-// export const updateUser = (req, res) => {
-//     const {id} = req.params;
-//     const {firstname, lastname, age} = req.body;
-
-//     const old_user = users.find((user)=> user.id == id);
-
-//     if(firstname){ old_user.firstname = firstname; }
-//     if(lastname){ old_user.lastname = lastname; }
-//     if(age){ old_user.age = age; }
-
-//     res.send(`User with id: ${id} has been updated`);
-
-    
-// }
-
-// export const deleteUser = (req, res) => {
-//     const {id} = req.params;
-//     //removes items that return false
-//     //if id != the user corresponding to this id in the users this expression returns false so remove it
-//     users = users.filter((user) => user.id != id);
-//     res.send(`User with id ${id} deleted from the databse.`)
-// }
-
-
 

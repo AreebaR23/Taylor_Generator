@@ -10,8 +10,8 @@ router.get('/', getSongs);
 router.post('/', createSong);
 
 // /users/2 => req.params { id: 2} finds users by id
-router.get('/:id', findSong);
+router.get('/:SongName', findSong);
 
-router.delete('/:id', getLyrics);
+router.get('/lyrics/:SongName', getLyrics);
 
 export default router;
